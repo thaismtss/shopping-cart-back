@@ -28,5 +28,11 @@ RUN poetry install --no-interaction --no-cache
 
 COPY ./app /app
 
+RUN mkdir /app/migrations
+
+COPY migrations /app/migrations
+
 EXPOSE 5000
-CMD [ "poetry", "run", "python", "-m", "flask", "run", "--host=0.0.0.0" ]
+
+
+CMD poetry run python -m flask db upgrade && poetry run python -m flask run --host=0.0.0.0
