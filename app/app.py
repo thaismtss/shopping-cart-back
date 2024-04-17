@@ -1,4 +1,3 @@
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from init import create_app
 from models import *
