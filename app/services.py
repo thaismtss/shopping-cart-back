@@ -1,4 +1,4 @@
-from models import Cart, CartItem, db
+from .models import Cart, CartItem, db
 from decimal import Decimal
 
 

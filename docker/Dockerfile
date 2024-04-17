@@ -30,7 +30,7 @@ ENV FLASK_ENV=development
 ENV FLASK_DEBUG=on
 ENV DEBUG=True
 
-COPY ./app /app
+COPY ./app /app/app
 
 RUN mkdir /app/migrations
 
