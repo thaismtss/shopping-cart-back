@@ -5,7 +5,9 @@ from decimal import Decimal
 def get_cart(cart_id):
     cart = Cart.query.filter_by(id=cart_id).first()
     if cart:
-        cart_items = CartItem.query.filter_by(cart_id=cart_id).all()
+        cart_items = (
+            CartItem.query.filter_by(cart_id=cart_id).order_by(CartItem.id.asc()).all()
+        )
         list_cart_items = [
             {
                 "id": item.id,
