@@ -32,6 +32,8 @@ ENV DEBUG=True
 
 COPY ./app /app/app
 
+COPY ./tests /app
+
 RUN mkdir /app/migrations
 
 COPY migrations /app/migrations

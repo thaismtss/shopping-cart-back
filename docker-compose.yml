@@ -18,6 +18,7 @@ services:
   server:
     networks:
       - app-network
+    container_name: shopping-cart-server
     build: 
       context: .
       target: dev
