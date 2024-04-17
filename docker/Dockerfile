@@ -12,19 +12,23 @@ RUN python3 -m venv $POETRY_VENV \
 	&& $POETRY_VENV/bin/pip install -U pip setuptools \
 	&& $POETRY_VENV/bin/pip install poetry==${POETRY_VERSION}
 
-FROM python-base as example-app
-
+FROM python-base as dev
 COPY --from=poetry-base ${POETRY_VENV} ${POETRY_VENV}
 
 ENV PATH="${PATH}:${POETRY_VENV}/bin"
 
 WORKDIR /app
 
-
 COPY poetry.lock pyproject.toml ./
 
+RUN poetry export --without-hashes --format=requirements.txt > requirements.txt
 
-RUN poetry install --no-interaction --no-cache
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+ENV FLASK_ENV=development
+ENV FLASK_DEBUG=on
+ENV DEBUG=True
 
 COPY ./app /app
 
@@ -34,5 +38,4 @@ COPY migrations /app/migrations
 
 EXPOSE 5000
 
-
-CMD poetry run python -m flask db upgrade && poetry run python -m flask run --host=0.0.0.0
+CMD python -m flask db upgrade && python -m flask run --host=0.0.0.0

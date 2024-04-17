@@ -4,6 +4,8 @@ volumes:
 services:
   pgsql:
     image: postgres:12.11
+    networks:
+      - app-network
     restart: always
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -13,9 +15,12 @@ services:
     ports:
       - 5432:5432
 
-  python:
+  server:
+    networks:
+      - app-network
     build: 
       context: .
+      target: dev
       dockerfile: ./docker/Dockerfile
     env_file:
       - .env
@@ -24,4 +29,9 @@ services:
     ports:
       - 5000:5000
     volumes:
+      - .:/server
       - ./app:/usr/src/app
+
+networks:
+  app-network:
+    external: true
